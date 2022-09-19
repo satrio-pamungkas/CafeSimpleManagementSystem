@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CafeSimpleManagementSystem.Models;
-using CafeSimpleManagementSystem.Services;
+using CafeSimpleManagementSystem.Repositories;
 
 namespace CafeSimpleManagementSystem.Controllers;
 
@@ -8,18 +8,22 @@ namespace CafeSimpleManagementSystem.Controllers;
 [Route("[controller]")]
 public class ItemController : ControllerBase
 {
-    public ItemController() {}
+    private readonly ItemRepository? _itemRepository;
+    public ItemController(ItemRepository itemRepository) 
+    {
+        _itemRepository = itemRepository;
+    }
 
     [HttpGet]
-    public ActionResult<List<Item>> GetAll()
+    public IEnumerable<Item> GetAll()
     {
-        return ItemService.GetAll();
+        return _itemRepository!.GetAll();
     }
 
     [HttpGet("{id}")]
     public ActionResult<Item> Get(int id)
     {
-        var item = ItemService.Get(id);
+        var item = _itemRepository!.GetById(id);
 
         if (item is null)
         {
@@ -32,7 +36,7 @@ public class ItemController : ControllerBase
     [HttpPost]
     public IActionResult Create(Item item)
     {
-        ItemService.Add(item);
+        _itemRepository!.Create(item);
         return CreatedAtAction(nameof(Create), 
             new { id = item.Id }, item
         );
@@ -46,13 +50,13 @@ public class ItemController : ControllerBase
             return BadRequest();
         }
 
-        var existingItem = ItemService.Get(id);
+        var existingItem = _itemRepository!.GetById(id);
         if (existingItem is null)
         {
             return NotFound();
         }
 
-        ItemService.Update(item);
+        _itemRepository.Update(item, id);
 
         return NoContent();
     }
@@ -60,14 +64,14 @@ public class ItemController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var item = ItemService.Get(id);
+        var item = _itemRepository!.GetById(id);
 
         if (item is null)
         {
             return NotFound();
         }
 
-        ItemService.Delete(id);
+        _itemRepository.Delete(id);
         
         return NoContent();
     }
