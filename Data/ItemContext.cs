@@ -3,9 +3,9 @@ using CafeSimpleManagementSystem.Models;
 
 namespace CafeSimpleManagementSystem.Data;
 
-public class ItemContext : DbContext
+public class DataContext : DbContext
 {
-    public ItemContext (DbContextOptions<ItemContext> options) : base(options)
+    public DataContext (DbContextOptions<DataContext> options) : base(options)
     {
 
     }
