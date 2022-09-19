@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CafeSimpleManagementSystem.Data;
+using CafeSimpleManagementSystem.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(DbString));
+builder.Services.AddScoped<ItemRepository>();
 
 var app = builder.Build();
 
@@ -23,4 +25,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.CreateDbIfNotExist();
 app.Run();

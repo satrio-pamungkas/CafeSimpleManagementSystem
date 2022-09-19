@@ -34,14 +34,16 @@ public class ItemRepository
 
     public void Update(Item item, int id)
     {
-        var itemToUpdate = _context!.Items.Find(id);
+        var itemToUpdate = _context!.Items.AsNoTracking().FirstOrDefault(
+            p => p.Id == id
+        );
 
         if (itemToUpdate is null)
         {
             throw new InvalidOperationException("Item does not exist");
         }
 
-        _context.Items.Update(item);
+        _context.Update(item);
         _context.SaveChanges();
     }
 
