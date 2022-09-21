@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using CafeSimpleManagementSystem.Data;
 using CafeSimpleManagementSystem.Repositories;
+using CafeSimpleManagementSystem.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -8,6 +9,7 @@ var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddJwtAuth(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(DbString));
@@ -23,6 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.CreateDbIfNotExist();
