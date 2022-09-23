@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using CafeSimpleManagementSystem.Data;
 using CafeSimpleManagementSystem.Repositories;
 using CafeSimpleManagementSystem.Config;
@@ -10,6 +11,7 @@ var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddControllers();
 builder.Services.AddJwtAuth(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(DbString));
