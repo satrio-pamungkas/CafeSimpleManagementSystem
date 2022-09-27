@@ -28,4 +28,11 @@ public class AuthController : ControllerBase
         return Ok(payload);
     }
 
+    [HttpPost("login")]
+    public IActionResult Login(LoginRequest request)
+    {
+        var response = _authService!.LoginUser(request);
+        return Ok(response);
+    }
+
 }

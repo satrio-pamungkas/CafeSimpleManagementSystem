@@ -4,6 +4,7 @@ using CafeSimpleManagementSystem.Repositories;
 using CafeSimpleManagementSystem.Config;
 using CafeSimpleManagementSystem.Services;
 using CafeSimpleManagementSystem.Middlewares;
+using CafeSimpleManagementSystem.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -17,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(DbString));
 builder.Services.AddScoped<ItemRepository>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<JwtUtils>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
@@ -36,6 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ErrorHandler>();
+app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 app.CreateDbIfNotExist();
 app.Run();
