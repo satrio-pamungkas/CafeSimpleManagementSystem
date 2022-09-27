@@ -5,12 +5,11 @@ public class Response<T>
     public Response() { }
     public Response(T data)
     {
-        Success = true;
+        Status = 200;
         Message = String.Empty;
         Data = data;
     }
-
-    public T? Data { get; set; }
-    public bool Success { get; set; }
+    public int Status { get; set; }
     public string? Message { get; set; }
+    public T? Data { get; set; }
 }

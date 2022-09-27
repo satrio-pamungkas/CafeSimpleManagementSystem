@@ -1,5 +1,4 @@
 using AutoMapper;
-using BCrypt.Net;
 using CafeSimpleManagementSystem.Models;
 using CafeSimpleManagementSystem.Data;
 using CafeSimpleManagementSystem.Wrappers.Auth;

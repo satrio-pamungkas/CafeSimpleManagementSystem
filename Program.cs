@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using CafeSimpleManagementSystem.Data;
 using CafeSimpleManagementSystem.Repositories;
 using CafeSimpleManagementSystem.Config;
 using CafeSimpleManagementSystem.Services;
+using CafeSimpleManagementSystem.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var DbString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,6 +35,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ErrorHandler>();
 app.MapControllers();
 app.CreateDbIfNotExist();
 app.Run();

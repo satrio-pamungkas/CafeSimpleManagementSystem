@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using CafeSimpleManagementSystem.Wrappers;
 using CafeSimpleManagementSystem.Wrappers.Auth;
 using CafeSimpleManagementSystem.Services;
 
@@ -18,7 +19,13 @@ public class AuthController : ControllerBase
     public IActionResult Register(RegisterRequest request)
     {
         _authService!.RegisterUser(request);
-        return Ok(new { message = "Success create user" });
+        var payload = new Response<object>()
+        {
+            Status = 200,
+            Message = "Success",
+            Data = new { message = "User is succesfully created" }
+        };
+        return Ok(payload);
     }
 
 }
