@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using CafeSimpleManagementSystem.Models;
 using CafeSimpleManagementSystem.Repositories;
+using CafeSimpleManagementSystem.Helpers;
+using CafeSimpleManagementSystem.Wrappers;
 
 namespace CafeSimpleManagementSystem.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ItemController : ControllerBase
@@ -15,13 +18,20 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Item> GetAll()
+    public IActionResult GetAll()
     {
-        return _itemRepository!.GetAll();
+        var payload = new Response<IEnumerable<Item>>()
+        {
+            Status = 200,
+            Message = "Success",
+            Data = _itemRepository!.GetAll()
+        };
+
+        return Ok(payload);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Item> Get(int id)
+    public ActionResult<Response<Item>> Get(int id)
     {
         var item = _itemRepository!.GetById(id);
 
@@ -30,7 +40,14 @@ public class ItemController : ControllerBase
             return NotFound();
         }
 
-        return item;
+        var payload = new Response<Item>()
+        {
+            Status = 200,
+            Message = "Success",
+            Data = item
+        };
+
+        return payload;
     }
 
     [HttpPost]
