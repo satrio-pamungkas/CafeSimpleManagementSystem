@@ -2,12 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CafeSimpleManagementSystem.Models;
 
-public class User
+public class RefreshToken
 {
     [Key]
     public Guid Id { get; set; }
-    public string? Username { get; set; }
-    public string? Password { get; set; }
+    public Guid Token { get; set; }
+    public DateTime ExpiredDate { get; set; }
     public DateTime CreatedDate { get; set; }
-    public RefreshToken? RefreshToken { get; set; }
+    public Guid UserId { get; set; }
+    public User? User { get; set; }
+
 }
