@@ -33,6 +33,7 @@ public class AuthService : IAuthService
         _context.Users?.Add(user);
         _context.SaveChanges();
 
+        SaveRefreshToken(user);
     }
 
     public LoginResponse LoginUser(LoginRequest request)
@@ -52,4 +53,19 @@ public class AuthService : IAuthService
         response.Token = _jwtUtils.GenerateToken(user);
         return response;
     }
+
+    public void SaveRefreshToken(User user)
+    {
+        var data = new RefreshToken();
+        data.UserId = user.Id;
+        data.Token = Guid.NewGuid();
+        data.ExpiredDate = DateTime.UtcNow.AddMinutes(10);
+
+        _context.RefreshToken?.Add(data);
+        _context.SaveChanges();
+    }
+    // public LoginResponse RefreshToken(RefreshTokenRequest request)
+    // {
+
+    // }
 }

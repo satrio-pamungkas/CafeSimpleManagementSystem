@@ -12,6 +12,7 @@ public class DataContext : DbContext
 
     public DbSet<Item> Items => Set<Item>();
     public DbSet<User>? Users { get; set; }
+    public DbSet<RefreshToken>? RefreshToken { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
