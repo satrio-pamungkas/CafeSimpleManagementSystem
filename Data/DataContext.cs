@@ -20,11 +20,19 @@ public class DataContext : DbContext
             .Property(e => e.Id)
             .HasDefaultValue(Guid.NewGuid());
         modelBuilder
+            .Entity<RefreshToken>()
+            .Property(e => e.Id)
+            .HasDefaultValue(Guid.NewGuid());
+        modelBuilder
             .Entity<User>()
             .Property(e => e.CreatedDate)
             .HasDefaultValueSql("now()");
         modelBuilder
             .Entity<Item>()
+            .Property(e => e.CreatedDate)
+            .HasDefaultValueSql("now()");
+        modelBuilder
+            .Entity<RefreshToken>()
             .Property(e => e.CreatedDate)
             .HasDefaultValueSql("now()");
     }
